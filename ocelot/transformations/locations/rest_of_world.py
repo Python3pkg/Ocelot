@@ -12,7 +12,7 @@ detailed = logging.getLogger('ocelot-detailed')
 def relabel_global_to_row(data):
     """Change ``GLO`` locations to ``RoW`` if there are region-specific datasets in the activity group."""
     processed = []
-    for key, datasets in toolz.groupby(activity_grouper, data).items():
+    for key, datasets in list(toolz.groupby(activity_grouper, data).items()):
         if datasets and datasets[0]["type"] == "market group":
             processed.extend(datasets)
             continue

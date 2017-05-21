@@ -11,8 +11,8 @@ def log_conflicting_technology_levels(data):
     activity_ds_filter = lambda x: x['type'] == 'transforming activity'
     has_undefined = lambda x: any(ds for ds in x if ds['technology level'] == 'undefined')
     has_current = lambda x: any(ds for ds in x if ds['technology level'] == 'current')
-    for rp, datasets in toolz.groupby('reference product',
-                                      filter(activity_ds_filter, data)).items():
+    for rp, datasets in list(toolz.groupby('reference product',
+                                      list(filter(activity_ds_filter, data))).items()):
         if has_undefined(datasets) and has_current(datasets):
             logging.info({
                 'type': 'table element',

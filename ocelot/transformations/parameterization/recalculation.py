@@ -56,7 +56,7 @@ def recalculate(dataset):
     Returns the modified dataset."""
     interpreter = Interpreter()
     parameter_set = TolerantParameterSet(extract_named_parameters(dataset))
-    for key, value in parameter_set.evaluate().items():
+    for key, value in list(parameter_set.evaluate().items()):
         interpreter.symtable[key] = value
 
     for exc in iterate_all_parameters(dataset):

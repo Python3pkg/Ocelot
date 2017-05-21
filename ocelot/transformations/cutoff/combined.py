@@ -157,7 +157,7 @@ def merge_byproducts(data):
 
     Yields a new dataset."""
 
-    for group in toolz.groupby(activity_grouper, data).values():
+    for group in list(toolz.groupby(activity_grouper, data).values()):
         parent = group[0]
         for child in group[1:]:
             parent = add_exchanges(parent, child)

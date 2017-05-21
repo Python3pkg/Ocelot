@@ -28,8 +28,8 @@ PEDIGREE_MATRIX_VALUES = {
 
 def get_pedigree_variance(pm, version="original"):
     """Get additional variance added by ``pm``"""
-    assert all(isinstance(obj, int) for obj in pm.values())
-    return sum(PEDIGREE_MATRIX_VALUES[version][k][v - 1] for k, v in pm.items())
+    assert all(isinstance(obj, int) for obj in list(pm.values()))
+    return sum(PEDIGREE_MATRIX_VALUES[version][k][v - 1] for k, v in list(pm.items()))
 
 
 def get_difference_in_years(first, second):

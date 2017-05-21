@@ -38,7 +38,7 @@ def apply_transformation(function, counter, data, output_dir, save_strategy):
         )
         logger.info(metadata)
 
-        print("Applying transformation {}".format(metadata['name']))
+        print(("Applying transformation {}".format(metadata['name'])))
         data = function(data)
         metadata.update(
             type="function end",
@@ -81,7 +81,7 @@ def system_model(data_path, config=None, show=False, use_cache=True, save_strate
         counter = itertools.count()
         logfile_path = create_log(output_manager.directory)
         create_detailed_log(output_manager.directory)
-        print("Opening log file at: {}".format(logfile_path))
+        print(("Opening log file at: {}".format(logfile_path)))
 
         logger.info({
             'type': 'report start',
@@ -100,13 +100,13 @@ def system_model(data_path, config=None, show=False, use_cache=True, save_strate
         save_intermediate_result(output_manager.directory, "final-results", data)
 
         logger.info({'type': 'report end'})
-        print(("Compare results with: ocelot-compare compare {} "
-               "<reference results>").format(output_manager.report_id))
+        print((("Compare results with: ocelot-compare compare {} "
+               "<reference results>").format(output_manager.report_id)))
         HTMLReport(logfile_path, show)
         return output_manager, data
 
     except KeyboardInterrupt:
         print("Terminating Ocelot model run")
-        print("Deleting output directory:\n{}".format(output_manager.directory))
+        print(("Deleting output directory:\n{}".format(output_manager.directory)))
         shutil.rmtree(output_manager.directory)
         sys.exit(1)

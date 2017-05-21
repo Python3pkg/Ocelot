@@ -54,7 +54,7 @@ def get_output_directory():
     try:
         env_var = create_dir(os.environ['OCELOT_OUTPUT'])
         assert env_var
-        print("Using environment variable OCELOT_OUTPUT:\n", env_var)
+        print(("Using environment variable OCELOT_OUTPUT:\n", env_var))
         return env_var
     except:
         return create_dir(os.path.join(get_base_directory(), "model-runs"))

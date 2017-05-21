@@ -4,7 +4,7 @@ import pytest
 
 
 def test_get_uncertainty_class():
-    for k, v in TYPE_MAPPING.items():
+    for k, v in list(TYPE_MAPPING.items()):
         exchange = {'uncertainty': {'type': k}}
         assert get_uncertainty_class(exchange) == v
     assert get_uncertainty_class({}) == NoUncertainty

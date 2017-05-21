@@ -10,7 +10,7 @@ import pytest
 
 def same_metadata(first, second):
     """All the metadata except for ``exchanges`` should be the same"""
-    for key, value in first.items():
+    for key, value in list(first.items()):
         if key == 'exchanges':
             continue
         else:

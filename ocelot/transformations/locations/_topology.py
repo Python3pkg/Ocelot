@@ -36,7 +36,7 @@ class Topology(object):
             return set()
         faces = self(location)
         return {key
-                for key, value in self.data.items()
+                for key, value in list(self.data.items())
                 if not value.difference(faces)
                 and not (key == location and exclude_self)}
 
@@ -72,7 +72,7 @@ class Topology(object):
         contained = {loc: filtered(self.contained(loc, True)) for loc in locations}
 
         # Remove redundant links, e.g. A contains B contains C; don't need A -> C.
-        for parent, children in contained.items():
+        for parent, children in list(contained.items()):
             give_up = []
             for brother in children:
                 for sister in children:
@@ -83,7 +83,7 @@ class Topology(object):
             for child in give_up:
                 children.discard(child)
 
-        children = {elem for lst in contained.values() for elem in lst}
+        children = {elem for lst in list(contained.values()) for elem in lst}
         parents = locations.difference(children).difference({'GLO', 'RoW'})
 
         # Depth first search
@@ -106,7 +106,7 @@ class Topology(object):
             return set()
         faces = self(location)
         return {key
-                for key, value in self.data.items()
+                for key, value in list(self.data.items())
                 if value.intersection(faces)
                 and not (key == location and exclude_self)}
 

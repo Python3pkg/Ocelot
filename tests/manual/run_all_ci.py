@@ -8,5 +8,5 @@ try:
     run_all_combined()
     print("Manual tests passed")
 except:
-    print(traceback.format_exc())
+    print((traceback.format_exc()))
     sys.exit(1)

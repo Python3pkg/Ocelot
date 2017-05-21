@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 try:
-    import brightway2 as bw2
+    from . import brightway2 as bw2
     from bw2io.importers.base_lci import LCIImporter
 except ImportError:
     bw2 = None
@@ -166,9 +166,9 @@ def import_into_brightway2(data, database_name):
     if not bw2:
         raise ImportError("Brightway2 not found")
     assert isinstance(database_name, str), "Database name must be a string"
-    print("Creating database `{}` in project `{}`".format(
+    print(("Creating database `{}` in project `{}`".format(
         database_name, bw2.projects.current)
-    )
+    ))
     assert database_name not in bw2.databases
     # Don't store two copies in memory
     data[:] = list(Brightway2Converter.convert_to_brightway2(data, database_name))
@@ -187,5 +187,5 @@ def import_into_brightway2(data, database_name):
         return bw2.Database(database_name)
     else:
         print("Unlinked exchanges; not writing database")
-        print(importer.statistics())
+        print((importer.statistics()))
         return importer

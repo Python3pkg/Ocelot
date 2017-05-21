@@ -20,7 +20,7 @@ def validate_directory_against_xsd(dirpath, schema):
                 if filename.lower().endswith(".spold")
                 ]
 
-    print("Validating {} undefined datasets".format(len(filelist)))
+    print(("Validating {} undefined datasets".format(len(filelist))))
 
     errors = []
     ecospold2_schema = etree.XMLSchema(etree.parse(open(schema)))
@@ -47,10 +47,10 @@ def validate_directory(dirpath):
             errors[err.msg] = {"path": err.path, "dataset": ds}
     if errors:
         logfile = "ocelot-validation-errors.log"
-        errors = [(k, v['path'], v['dataset']) for k, v in errors.items()]
-        print("{} errors found.\nSee error logfile {} for details.".format(
+        errors = [(k, v['path'], v['dataset']) for k, v in list(errors.items())]
+        print(("{} errors found.\nSee error logfile {} for details.".format(
             len(errors), logfile)
-        )
+        ))
         with open(logfile, "w", encoding='utf-8') as f:
             f.write("Internal validation errors for extracted directory:\n{}\n".format(dirpath))
             f.write(pprint.pformat(errors, width=120, compact=True))

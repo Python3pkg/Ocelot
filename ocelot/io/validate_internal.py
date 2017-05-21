@@ -21,7 +21,7 @@ valid_technology_levels = Any(*list(TECHNOLOGY_LEVEL.values()))
 
 # Uncertainty distribution schemas
 
-valid_pedigree_matrix = Any({lbl: int for lbl in PEDIGREE_LABELS.values()}, {})
+valid_pedigree_matrix = Any({lbl: int for lbl in list(PEDIGREE_LABELS.values())}, {})
 
 valid_lognormal = Schema({
     'mean': float,

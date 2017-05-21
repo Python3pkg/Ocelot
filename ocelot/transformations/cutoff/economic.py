@@ -51,5 +51,5 @@ def economic_allocation(dataset, use_true_value=True):
         factors[mask] = true_value[mask]
     return apply_allocation_factors(
         dataset,
-        zip(factors.tolist(), allocatable_production(dataset))
+        list(zip(factors.tolist(), allocatable_production(dataset)))
     )

@@ -58,7 +58,7 @@ def link_consumers_to_recycled_content_activities(data):
         and x['type'] == 'transforming activity')
     recycled_content_mapping = toolz.groupby(
         'reference product',
-        filter(recycled_content_filter, data)
+        list(filter(recycled_content_filter, data))
     )
 
     for ds in data:
@@ -93,7 +93,7 @@ def link_consumers_to_regional_markets(data):
     filter_func = lambda x: x['type'] == "market activity"
     market_mapping = toolz.groupby(
         'reference product',
-        filter(filter_func, data)
+        list(filter(filter_func, data))
     )
     for ds in data:
         for exc in filter(unlinked, ds['exchanges']):
@@ -133,7 +133,7 @@ def link_consumers_to_global_markets(data):
     filter_func = lambda x: x['type'] == "market activity"
     market_mapping = toolz.groupby(
         'reference product',
-        filter(filter_func, data)
+        list(filter(filter_func, data))
     )
 
     for ds in data:

@@ -188,7 +188,7 @@ def test_allocation_cardboard(cardboard):
 
     for ds in datasets:
         assert len(ds['exchanges']) == 7
-        for key, value in cardboard.items():
+        for key, value in list(cardboard.items()):
             if key == 'exchanges':
                 continue
             else:
@@ -248,8 +248,8 @@ def test_allocation_cardboard(cardboard):
                 }
             }
         for exc in ds['exchanges']:
-            print(exc['name'])
-            for key, value in expected[exc['name']].items():
+            print((exc['name']))
+            for key, value in list(expected[exc['name']].items()):
                 if isinstance(value, Number):
                     assert allclose(exc[key], value)
                 else:

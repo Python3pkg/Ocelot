@@ -8,6 +8,7 @@ import copy
 import itertools
 import logging
 import numpy as np
+from functools import reduce
 
 logger = logging.getLogger('ocelot')
 
@@ -17,15 +18,15 @@ def link_market_group_suppliers(data):
     filter_func = lambda x: x['type'] == "market group"
     market_groups = dict(toolz.groupby(
         'reference product',
-        filter(filter_func, data)
+        list(filter(filter_func, data))
     ))
 
     # Check to make sure names are consistent
-    for group in market_groups.values():
+    for group in list(market_groups.values()):
         if not len({ds['name'] for ds in group}) == 1:
             raise MarketGroupError("Inconsistent activity names in market group")
 
-    for ref_product, groups in market_groups.items():
+    for ref_product, groups in list(market_groups.items()):
         suppliers = [ds for ds in data
                      if ds['type'] == 'market activity'
                      and ds['reference product'] == ref_product]
@@ -61,9 +62,9 @@ def link_market_group_suppliers(data):
         # Turn `tree` from nested dictionaries to flat list of key, values.
         # Breadth first search
         def unroll(lst, dct):
-            for key, value in dct.items():
+            for key, value in list(dct.items()):
                 lst.append((key, value))
-            for value in dct.values():
+            for value in list(dct.values()):
                 if value:
                     lst = unroll(lst, value)
             return lst
@@ -126,14 +127,14 @@ def check_markets_only_supply_one_market_group(data):
     filter_func = lambda x: x['type'] == "market group"
     market_groups = dict(toolz.groupby(
         'name',
-        filter(filter_func, data)
+        list(filter(filter_func, data))
     ))
 
     code_dict = {x['code']: x for x in data}
 
     message = "Activity {} ({}) supplies multiple market groups: {} {} and {}."
 
-    for name, groups in market_groups.items():
+    for name, groups in list(market_groups.items()):
         for group in groups:
             input_codes = {exc['code'] for exc in group['exchanges']
                            if exc['type'] == 'from technosphere'}

@@ -26,7 +26,7 @@ def jsonize(data):
     data['count_data'] = _([x[1] for x in data['counts']])
     data['time_labels'] = [str(x) for x, _ in enumerate(data['times'])]
     data['time_data'] = _([x[1] for x in data['times']])
-    for k, v in data['functions'].items():
+    for k, v in list(data['functions'].items()):
         if hasattr(v, "tabledata"):
             v["tabledata"] = _(sorted(v["tabledata"]))
             v['table']['columns'] = _(v['table']['columns'])

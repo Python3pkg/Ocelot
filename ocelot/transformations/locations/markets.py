@@ -38,7 +38,7 @@ def apportion_suppliers_to_consumers(consumers, suppliers, topo_func=topology.co
 
     for consumer in consumers:
         contained = []
-        for group in toolz.groupby('name', suppliers).values():
+        for group in list(toolz.groupby('name', suppliers).values()):
             if consumer['location'] == 'GLO':
                 candidates = group
             elif consumer['location'] == 'RoW':
@@ -80,7 +80,7 @@ def add_recycled_content_suppliers_to_markets(data):
 
     We need to correctly add the recycled content suppliers to these markets. The general purpose ``add_suppliers_to_markets`` doesn't work because the reference products are different."""
     market_filter = lambda x: x['type'] == "market activity"
-    grouped = toolz.groupby("reference product", filter(market_filter, data))
+    grouped = toolz.groupby("reference product", list(filter(market_filter, data)))
 
     recycled_content_datasets = [
         x for x in data
@@ -88,7 +88,7 @@ def add_recycled_content_suppliers_to_markets(data):
         and x['reference product'].endswith(RC_STRING)
     ]
 
-    for rp, markets in grouped.items():
+    for rp, markets in list(grouped.items()):
         suppliers = [
             ds for ds in recycled_content_datasets
             if ds['reference product'] == rp + RC_STRING
@@ -114,9 +114,9 @@ def add_suppliers_to_markets(data, from_type="transforming activity",
 
     Does not change the exchanges list or do allocation between various suppliers."""
     filter_func = lambda x: x['type'] in (from_type, to_type)
-    grouped = toolz.groupby("reference product", filter(filter_func, data))
+    grouped = toolz.groupby("reference product", list(filter(filter_func, data)))
 
-    for rp, datasets in grouped.items():
+    for rp, datasets in list(grouped.items()):
         suppliers = [ds for ds in datasets if ds['type'] == from_type]
         consumers = [ds for ds in datasets
                      if ds['type'] == to_type
@@ -157,7 +157,7 @@ def allocate_suppliers(dataset):
 
     if not total_pv:
         # TODO: Raise error here
-        print("Skipping zero total PV with multiple inputs:\n\t{}/{} ({}, {} suppliers)".format(dataset['name'], rp['name'], dataset['location'], len(dataset['suppliers'])))
+        print(("Skipping zero total PV with multiple inputs:\n\t{}/{} ({}, {} suppliers)".format(dataset['name'], rp['name'], dataset['location'], len(dataset['suppliers']))))
         return
 
     for supply_exc in dataset['suppliers']:

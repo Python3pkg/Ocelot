@@ -151,7 +151,7 @@ def test_allocate_cogeneration_dataset(cogen):
 
     for ds in datasets:
         assert len(ds['exchanges']) == 5
-        for key, value in cogen.items():
+        for key, value in list(cogen.items()):
             if key == 'exchanges':
                 continue
             else:
@@ -199,8 +199,8 @@ def test_allocate_cogeneration_dataset(cogen):
                 },
             }
         for exc in ds['exchanges']:
-            print(exc['name'])
-            for key, value in expected[exc['name']].items():
+            print((exc['name']))
+            for key, value in list(expected[exc['name']].items()):
                 if isinstance(value, Number):
                     assert allclose(exc[key], value)
                 else:

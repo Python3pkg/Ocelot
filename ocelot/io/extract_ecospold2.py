@@ -48,7 +48,7 @@ def extract_pedigree_matrix(elem):
         return {}
     else:
         return {value: int(elem.pedigreeMatrix.get(key))
-                for key, value in PEDIGREE_LABELS.items()}
+                for key, value in list(PEDIGREE_LABELS.items())}
 
 
 def extract_uncertainty(unc):
@@ -70,14 +70,14 @@ def extract_uncertainty(unc):
                          for label in distribution_labels
                          if hasattr(unc, label)))
     data = {UNCERTAINTY_MAPPING.get(key, key): float(distribution.get(key))
-            for key in distribution.keys()}
+            for key in list(distribution.keys())}
     data.update({
         'type': _(distribution.tag),
         'pedigree matrix': extract_pedigree_matrix(unc)
     })
     # TODO: Why is this necessary? Should be in undefined datasets...
     if not data['pedigree matrix'] and data['type'] in ('lognormal', 'normal'):
-        data['pedigree matrix'] = {x: 5 for x in PEDIGREE_LABELS.values()}
+        data['pedigree matrix'] = {x: 5 for x in list(PEDIGREE_LABELS.values())}
     return data
 
 
@@ -224,7 +224,7 @@ def extract_ecospold2_directory(dirpath, use_mp=True):
                 if filename.lower().endswith(".spold")
                 ]
 
-    print("Extracting {} undefined datasets".format(len(filelist)))
+    print(("Extracting {} undefined datasets".format(len(filelist))))
 
     if use_mp:
         start = time()
@@ -239,7 +239,7 @@ def extract_ecospold2_directory(dirpath, use_mp=True):
             except KeyboardInterrupt:
                 pool.terminate()
                 raise KeyboardInterrupt
-        print("Extracted {} undefined datasets in {:.1f} seconds".format(len(data), time() - start))
+        print(("Extracted {} undefined datasets in {:.1f} seconds".format(len(data), time() - start)))
     else:
         data = [generic_extractor(fp)
                 for fp in pyprind.prog_bar(filelist)]
